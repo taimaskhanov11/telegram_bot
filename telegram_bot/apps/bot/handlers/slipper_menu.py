@@ -32,7 +32,7 @@ async def dear_slipper(message: types.Message, state: FSMContext):
         await Slipper.cheap_slipper.set()
     except Exception as e:
         logger.warning(e)
-        await message.answer("Пожалуйста введите число")
+        await message.answer("Пожалуйста введите число через «.»")
 
 
 async def cheap_slipper(message: types.Message, state: FSMContext):
@@ -66,7 +66,7 @@ async def cheap_slipper(message: types.Message, state: FSMContext):
         await Slipper.done.set()
     except Exception as e:
         logger.warning(e)
-        await message.answer("Пожалуйста введите число")
+        await message.answer("Пожалуйста введите число через «.»")
 
 
 async def done(call: types.CallbackQuery, state: FSMContext):
@@ -129,7 +129,7 @@ async def mint_check(message: types.Message, state: FSMContext):
 
     except Exception as e:
         logger.warning(e)
-        await message.answer("Пожалуйста введите число")
+        await message.answer("Пожалуйста введите число через «.»")
 
 
 def register_slipper_handlers(dp: Dispatcher):

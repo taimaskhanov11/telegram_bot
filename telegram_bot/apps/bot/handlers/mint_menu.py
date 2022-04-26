@@ -32,7 +32,7 @@ async def sum_mint(message: types.Message, state: FSMContext):
         await message.answer("81CzVw7QcjrvkUUvb6rnxsTkUJji7B5bUZTFnsEnproJ", reply_markup=markups.slipper_menu.done())
         await state.finish()
     else:
-        await message.answer("Пожалуйста введите число")
+        await message.answer("Пожалуйста введите число через «.»")
 
 
 def register_mint_handlers(dp: Dispatcher):
