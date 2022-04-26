@@ -1,6 +1,7 @@
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from loguru import logger
 
 from telegram_bot.apps.bot import markups
 from telegram_bot.apps.bot.utils.calculate import calculate_mint_slipper_profit
@@ -15,9 +16,11 @@ async def mint_start(call: types.CallbackQuery, state: FSMContext):
     await call.message.answer("Введите сумму продажи тапка с минтом в SOL:", reply_markup=types.ReplyKeyboardRemove())
     await Mint.sum1.set()
 
+
 async def sum_mint(message: types.Message, state: FSMContext):
     mint_sum_number = message.text
-    if mint_sum_number.isdigit():
+
+    try:
         gst_usdt, sol_usdt, gmt_usdt, gst_sol, money = await calculate_mint_slipper_profit(mint_sum_number)
         await message.answer(f"Твой profit 💰:\n"
                              f"{money} USDT\n"
@@ -31,7 +34,8 @@ async def sum_mint(message: types.Message, state: FSMContext):
 
         await message.answer("81CzVw7QcjrvkUUvb6rnxsTkUJji7B5bUZTFnsEnproJ", reply_markup=markups.slipper_menu.done())
         await state.finish()
-    else:
+    except Exception as e:
+        logger.warning(e)
         await message.answer("Пожалуйста введите число через «.»")
 
 
