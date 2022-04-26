@@ -1,15 +1,21 @@
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from loguru import logger
 
 from telegram_bot.apps.bot import markups
 from telegram_bot.config.config import config
 from telegram_bot.db.models import User
+from telegram_bot.loader import bot
 
 
 class MakeSelection(StatesGroup):
     from_ = State()
     to = State()
+
+
+class SendMail(StatesGroup):
+    send = State()
 
 
 async def admin_start(message: types.Message | types.CallbackQuery, state: FSMContext):
@@ -54,12 +60,33 @@ async def return_percent(call: types.CallbackQuery, state: FSMContext):
     await state.finish()
 
 
+async def send_mail(call: types.CallbackQuery, state: FSMContext):
+    await state.finish()
+    await call.message.answer(f"Введите текст для рассылки всем пользователям",
+                              reply_markup=types.ReplyKeyboardRemove())
+    await SendMail.send.set()
+
+
+async def send_mail_done(message: types.Message, state: FSMContext):
+    await state.finish()
+    await message.answer("Идет отправка")
+    users = await User.all()
+    for user in users:
+        try:
+            await bot.send_message(user.user_id, message.text, "markdown")
+        except Exception as e:
+            logger.warning(e)
+    await message.answer(f"Рассылка отправлена {len(users)} пользователям")
+
+
 def register_admin_handlers(dp: Dispatcher):
     callback = dp.register_callback_query_handler
     message = dp.register_message_handler
     message(admin_start, user_id=config.bot.admins, commands="admin", state="*")
     callback(admin_start, user_id=config.bot.admins, text="admin", state="*")
     callback(users_count, user_id=config.bot.admins, text="users_count", state="*")
+    callback(send_mail, user_id=config.bot.admins, text="send_mail", state="*")
+    message(send_mail_done, user_id=config.bot.admins, state=SendMail.send)
 
     callback(make_selection, user_id=config.bot.admins, text="make_selection", state="*")
     message(from_make_selection, user_id=config.bot.admins, state=MakeSelection.from_)
