@@ -1,0 +1,14 @@
+bot:
+  token: you_token
+  admins:
+    - 371281077
+    - 5050812985
+    - 269019356
+  block_list:
+    - 1
+db:
+  username: postgres
+  password: postgres
+  host: localhost
+  port: 5432
+  db_name: telegram_bot
