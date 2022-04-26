@@ -30,6 +30,5 @@ async def import_data():
             }
         )
 
-
 if __name__ == "__main__":
     asyncio.run(import_data())
