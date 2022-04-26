@@ -27,6 +27,7 @@ async def slipper_start(call: types.CallbackQuery, state: FSMContext):
 async def dear_slipper(message: types.Message, state: FSMContext):
     dear_slipper_num = message.text
     try:
+        dear_slipper_num = float(dear_slipper_num)
         await state.update_data(dear_slipper_num=dear_slipper_num)
         await message.answer("Введи сумму покупки более дешевого тапка в SOL.")
         await Slipper.cheap_slipper.set()
