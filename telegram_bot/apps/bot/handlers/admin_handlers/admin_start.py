@@ -18,6 +18,10 @@ class SendMail(StatesGroup):
     send = State()
 
 
+class EditStartMessage(StatesGroup):
+    edit = State()
+
+
 async def admin_start(message: types.Message | types.CallbackQuery, state: FSMContext):
     if isinstance(message, types.CallbackQuery):
         message = message.message
@@ -31,6 +35,24 @@ async def users_count(call: types.CallbackQuery, state: FSMContext):
     users_count_num = await User.all().count()
     await call.message.answer(f"В боте зарегистрировано: {users_count_num} 👥",
                               reply_markup=markups.admin_menu.admin_button())
+
+
+async def start_message(call: types.CallbackQuery, state: FSMContext):
+    await state.finish()
+    await call.message.answer(f"Текущее стартовое сообщение:\n{config.answer.start_message}",
+                              reply_markup=markups.admin_menu.start_message())
+
+
+async def edit_start_message(call: types.CallbackQuery, state: FSMContext):
+    await state.finish()
+    await call.message.answer("Введите новое сообщение для стартового меню", reply_markup=types.ReplyKeyboardRemove())
+    await EditStartMessage.edit.set()
+
+
+async def edit_start_message_done(message: types.Message, state: FSMContext):
+    await state.finish()
+    config.answer.start_message = message.text
+    await message.answer("Стартовое сообщение успешно изменено")
 
 
 async def make_selection(call: types.CallbackQuery, state: FSMContext):
@@ -84,6 +106,10 @@ def register_admin_handlers(dp: Dispatcher):
     message = dp.register_message_handler
     message(admin_start, user_id=config.bot.admins, commands="admin", state="*")
     callback(admin_start, user_id=config.bot.admins, text="admin", state="*")
+    callback(start_message, user_id=config.bot.admins, text="start_message", state="*")
+    callback(edit_start_message, user_id=config.bot.admins, text="edit_start_message", state="*")
+    message(edit_start_message_done, user_id=config.bot.admins, state=EditStartMessage.edit)
+
     callback(users_count, user_id=config.bot.admins, text="users_count", state="*")
     callback(send_mail, user_id=config.bot.admins, text="send_mail", state="*")
     message(send_mail_done, user_id=config.bot.admins, state=SendMail.send)

@@ -7,6 +7,7 @@ def admin_start():
         (("📄 Узнать процент возврата за сегодня.", "return_percent"),),
         (("✍ Сделать выборку регистраций.", "make_selection"),),
         (("🔖 Сделать рассылку", "send_mail"),),
+        (("📋 Стартовое сообщение", "start_message"),),
     ]
 
     return get_inline_keyboard(keyword)
@@ -15,5 +16,11 @@ def admin_start():
 def admin_button():
     keyboard = [
         (("Админ панель", "admin"),),
+    ]
+    return get_inline_keyboard(keyboard)
+
+def start_message():
+    keyboard = [
+        (("Изменить", "edit_start_message"),),
     ]
     return get_inline_keyboard(keyboard)
