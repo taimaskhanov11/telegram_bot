@@ -50,9 +50,9 @@ async def edit_start_message(call: types.CallbackQuery, state: FSMContext):
 
 
 async def edit_start_message_done(message: types.Message, state: FSMContext):
-    await state.finish()
     config.answer.start_message = message.text
     await message.answer("Стартовое сообщение успешно изменено")
+    await state.finish()
 
 
 async def make_selection(call: types.CallbackQuery, state: FSMContext):

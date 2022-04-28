@@ -35,7 +35,7 @@ async def main():
         # old_level=logging.DEBUG,
         old_level=logging.INFO,
         steaming=True,
-        write=False,
+        write=True,
     )
 
     logger.success(f"Starting bot {(await bot.get_me()).username}")
