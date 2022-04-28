@@ -2,8 +2,8 @@ import asyncio
 
 import aiohttp
 
-COL_GTS = 140
-COL_GMT = 90
+COL_GTS = 100
+COL_GMT = 130
 
 async def send_request(session, url):
     async with session.get(url) as res:
