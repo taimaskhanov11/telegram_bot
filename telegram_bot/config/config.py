@@ -52,3 +52,4 @@ class Config(BaseModel):
 TZ = datetime.timezone(datetime.timedelta(hours=3))
 config_file = parse_config()
 config = Config(**load_yaml(config_file or "config.yml"))
+config.answer = Answer(**load_yaml("answers.yml"))
