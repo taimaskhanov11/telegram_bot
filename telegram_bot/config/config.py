@@ -29,6 +29,8 @@ class Bot(BaseModel):
     token: str
     admins: Optional[list[int]]
     block_list: Optional[list[int]]
+    COL_GTS: int | float = 100
+    COL_GMT: int | float = 130
 
 
 class Answer(BaseModel):

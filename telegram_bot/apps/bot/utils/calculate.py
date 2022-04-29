@@ -2,8 +2,8 @@ import asyncio
 
 import aiohttp
 
-COL_GTS = 100
-COL_GMT = 130
+from telegram_bot.config.config import config
+
 
 async def send_request(session, url):
     async with session.get(url) as res:
@@ -40,7 +40,7 @@ async def calculate_slipper_profit(_max, _min):
     return gst_usdt, sol_usdt, gmt_usdt, gst_sol, usdt_profit, gst_profit, sol_profit, profit
 
 async def calculate_mint_profit(msg,data):
-    summ = (float(data["gst_usdt"]) * COL_GTS) + (COL_GMT * float(data["gmt_usdt"]))
+    summ = (float(data["gst_usdt"]) * config.bot.COL_GTS) + (config.bot.COL_GMT * float(data["gmt_usdt"]))
     revenue = float(msg) * data["sol_usdt"]
     revenue_val = revenue - (revenue / 100 * 6)
     money = revenue_val - summ
@@ -48,7 +48,7 @@ async def calculate_mint_profit(msg,data):
 
 async def calculate_mint_slipper_profit(msg):
     gst_usdt, sol_usdt, gmt_usdt = await get_info_GST_SOL()
-    summ = (float(gst_usdt) * COL_GTS) + (float(gmt_usdt) * COL_GMT)
+    summ = (float(gst_usdt) * config.bot.COL_GTS) + (float(gmt_usdt) * config.bot.COL_GMT)
     sol_usdt = float(sol_usdt)
     gst_sol = sol_usdt / gst_usdt
     revenue = float(msg) * sol_usdt

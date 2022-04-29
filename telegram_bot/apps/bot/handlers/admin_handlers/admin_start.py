@@ -21,12 +21,18 @@ class SendMail(StatesGroup):
 class EditStartMessage(StatesGroup):
     edit = State()
 
+class EditCol(StatesGroup):
+    COL_GTS = State()
+    COL_GMT = State()
 
 async def admin_start(message: types.Message | types.CallbackQuery, state: FSMContext):
     if isinstance(message, types.CallbackQuery):
         message = message.message
     await state.finish()
-    await message.answer("Добро пожаловать в админ панель. Выберите действие.",
+
+    await message.answer("Добро пожаловать в админ панель. Выберите действие.\n"
+                         f"COL_GTS: {config.bot.COL_GTS}\n"
+                         f"COL_GMT: {config.bot.COL_GMT}\n",
                          reply_markup=markups.admin_menu.admin_start())
 
 
@@ -53,6 +59,32 @@ async def edit_start_message_done(message: types.Message, state: FSMContext):
     config.answer.start_message = message.text
     await message.answer("Стартовое сообщение успешно изменено")
     await state.finish()
+
+
+async def edit_COL_GTS(call: types.CallbackQuery, state: FSMContext):
+    await state.finish()
+    await call.message.answer("Введите новое значение для COL_GTS", reply_markup=types.ReplyKeyboardRemove())
+    await EditCol.COL_GTS.set()
+
+
+async def edit_COL_GTS_done(message: types.Message, state: FSMContext):
+    config.bot.COL_GTS = float(message.text)
+    await message.answer("Значение COL_GTS успешно изменено")
+    await state.finish()
+
+
+
+async def edit_COL_GMT(call: types.CallbackQuery, state: FSMContext):
+    await state.finish()
+    await call.message.answer("Введите новое значение для COL_GMT", reply_markup=types.ReplyKeyboardRemove())
+    await EditCol.COL_GMT.set()
+
+
+async def edit_COL_GMT_done(message: types.Message, state: FSMContext):
+    config.bot.COL_GMT = float(message.text)
+    await message.answer("Значение COL_GMT успешно изменено")
+    await state.finish()
+
 
 
 async def make_selection(call: types.CallbackQuery, state: FSMContext):
@@ -109,6 +141,12 @@ def register_admin_handlers(dp: Dispatcher):
     callback(start_message, user_id=config.bot.admins, text="start_message", state="*")
     callback(edit_start_message, user_id=config.bot.admins, text="edit_start_message", state="*")
     message(edit_start_message_done, user_id=config.bot.admins, state=EditStartMessage.edit)
+
+    callback(edit_COL_GTS, user_id=config.bot.admins, text="edit_COL_GTS", state="*")
+    message(edit_COL_GTS_done, user_id=config.bot.admins, state=EditCol.COL_GTS)
+
+    callback(edit_COL_GMT, user_id=config.bot.admins, text="edit_COL_GMT", state="*")
+    message(edit_COL_GMT_done, user_id=config.bot.admins, state=EditCol.COL_GMT)
 
     callback(users_count, user_id=config.bot.admins, text="users_count", state="*")
     callback(send_mail, user_id=config.bot.admins, text="send_mail", state="*")

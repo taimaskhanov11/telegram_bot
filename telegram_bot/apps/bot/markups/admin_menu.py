@@ -8,6 +8,8 @@ def admin_start():
         (("✍ Сделать выборку регистраций.", "make_selection"),),
         (("🔖 Сделать рассылку", "send_mail"),),
         (("📋 Стартовое сообщение", "start_message"),),
+        (("Изменить COL_GTS", "edit_COL_GTS"),),
+        (("Изменить COL_GMT", "edit_COL_GMT"),),
     ]
 
     return get_inline_keyboard(keyword)
