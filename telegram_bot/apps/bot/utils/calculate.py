@@ -22,10 +22,10 @@ async def get_info_GST_SOL():
                 tasks.append(task)
             result = await asyncio.gather(*tasks)
             response_1, response_2, response_3 = result
-        price1 = response_1['tick']['data'][0]['price']
-        price2 = response_2['tick']['data'][0]['price']
-        price3 = response_3['tick']['data'][0]['price']
-        return price1, price2, price3
+        price1_gstusdt = response_1['tick']['data'][0]['price']
+        price2_solusdt = response_2['tick']['data'][0]['price']
+        price3_gmtusdt = response_3['tick']['data'][0]['price']
+        return price1_gstusdt, price2_solusdt, price3_gmtusdt
     except ValueError:
         return False
 
@@ -34,17 +34,21 @@ async def calculate_slipper_profit(_max, _min):
     gst_usdt, sol_usdt, gmt_usdt = await get_info_GST_SOL()
     gst_sol = sol_usdt / gst_usdt
     profit = (_max - float(_min)) - (((_max - float(_min)) / 100) * 6)
+
     usdt_profit = profit * gst_usdt * gst_sol
-    gst_profit = (profit * gst_usdt) / gst_usdt
-    sol_profit = (profit * gst_usdt) / sol_usdt
+    gst_profit = (profit * sol_usdt) / gst_usdt
+    sol_profit = (profit * sol_usdt) / sol_usdt
+
     return gst_usdt, sol_usdt, gmt_usdt, gst_sol, usdt_profit, gst_profit, sol_profit, profit
 
-async def calculate_mint_profit(msg,data):
+
+async def calculate_mint_profit(msg, data):
     summ = (float(data["gst_usdt"]) * config.bot.COL_GTS) + (config.bot.COL_GMT * float(data["gmt_usdt"]))
     revenue = float(msg) * data["sol_usdt"]
     revenue_val = revenue - (revenue / 100 * 6)
     money = revenue_val - summ
     return money
+
 
 async def calculate_mint_slipper_profit(msg):
     gst_usdt, sol_usdt, gmt_usdt = await get_info_GST_SOL()
@@ -55,4 +59,3 @@ async def calculate_mint_slipper_profit(msg):
     revenue_val = revenue - (revenue / 100 * 6)
     money = revenue_val - summ
     return gst_usdt, sol_usdt, gmt_usdt, gst_sol, money
-
