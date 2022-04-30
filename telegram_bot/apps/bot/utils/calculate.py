@@ -59,10 +59,10 @@ async def calculate_mint_profit(msg, data):
     logger.info(f"{gst_usdt}|{gmt_usdt}|{sol_usdt}")
     # summ =  (gst_usdt * config.bot.COL_GTS) + (config.bot.COL_GMT * gmt_usdt)
     summ =  (gst_usdt * config.bot.COL_GTS) + (config.bot.COL_GMT * gmt_usdt)
-    revenue = float(msg) * gst_sol
-    # revenue = float(msg) * sol_usdt
+    # revenue = float(msg) * gst_sol
+    revenue = float(msg) * sol_usdt
     # revenue = float(msg) * data["sol_usdt"] * gst_usdt
-    revenue_val = revenue - (revenue / 100 * 6)
+    revenue_val = revenue - ((revenue / 100) * 6)
     money = revenue_val - summ
     # money = data["profit"] - summ
     return money
@@ -76,6 +76,6 @@ async def calculate_mint_slipper_profit(msg):
     gst_sol = sol_usdt / gst_usdt
     # revenue = float(msg) * gst_sol
     revenue = float(msg) * sol_usdt
-    revenue_val = revenue - (revenue / 100 * 6)
+    revenue_val = revenue - ((revenue / 100) * 6)
     money = revenue_val - summ
     return gst_usdt, sol_usdt, gmt_usdt, gst_sol, money
