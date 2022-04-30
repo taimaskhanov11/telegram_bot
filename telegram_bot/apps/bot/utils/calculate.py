@@ -46,7 +46,7 @@ async def calculate_slipper_profit(_max, _min):
     # usdt_profit = profit * sol_profit
     gst_profit = sol_profit / gst_usdt
 
-    return gst_usdt, sol_usdt, gmt_usdt, gst_sol, usdt_profit, gst_profit, sol_profit, sol_profit
+    return gst_usdt, sol_usdt, gmt_usdt, gst_sol, usdt_profit, gst_profit, sol_profit, profit
 
 
 async def calculate_mint_profit(msg, data):

@@ -59,7 +59,7 @@ async def cheap_slipper(message: types.Message, state: FSMContext):
                              "————————————————————\n"
                              f"{usdt_profit} USDT\n"
                              f"{gst_profit} GST\n"
-                             f"{sol_profit} SOL\n\n"
+                             f"{profit} SOL\n\n"
                              "Цикл сделки:\n"
                              "Продажа тапка с 0 минтом - Покупка тапка (взамен)\n"
                              f"————————————-\nКурс GTS - {gst_usdt} USDT\nКурс SOL - {sol_usdt} USDT\nКурс GMT - {gmt_usdt} USDT\nКурс -SOL\GST - {gst_sol}\n\n")
