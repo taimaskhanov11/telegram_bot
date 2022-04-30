@@ -42,9 +42,9 @@ async def calculate_slipper_profit(_max, _min):
     # gst_profit = profit * sol_usdt / gst_usdt
     # sol_profit = profit * sol_usdt / sol_usdt
     sol_profit = profit * gst_usdt * gst_sol
-    usdt_profit = sol_usdt * sol_profit
-    # usdt_profit = profit * sol_profit
-    gst_profit = sol_profit / gst_usdt
+    # usdt_profit = sol_usdt * sol_profit
+    usdt_profit = profit * sol_usdt
+    gst_profit = usdt_profit / gst_usdt
 
     return gst_usdt, sol_usdt, gmt_usdt, gst_sol, usdt_profit, gst_profit, sol_profit, profit
 
