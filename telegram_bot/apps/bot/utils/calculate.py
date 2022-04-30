@@ -56,8 +56,8 @@ async def calculate_mint_profit(msg, data):
     revenue = float(msg) * data["sol_usdt"]
     # revenue = float(msg) * data["sol_usdt"] * gst_usdt
     revenue_val = revenue - (revenue / 100 * 6)
-    # money = revenue_val - summ
-    money = data["profit"] - summ
+    money = revenue_val - summ
+    # money = data["profit"] - summ
     return money
 
 
