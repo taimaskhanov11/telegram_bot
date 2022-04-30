@@ -52,8 +52,9 @@ async def calculate_slipper_profit(_max, _min):
 async def calculate_mint_profit(msg, data):
     gst_usdt = float(data["gst_usdt"])
     gmt_usdt = float(data["gmt_usdt"])
+    sol_usdt = float(data["sol_usdt"])
     summ =  (gst_usdt * config.bot.COL_GTS) + (config.bot.COL_GMT * gmt_usdt)
-    revenue = float(msg) * data["sol_usdt"]
+    revenue = float(msg) * sol_usdt
     # revenue = float(msg) * data["sol_usdt"] * gst_usdt
     revenue_val = revenue - (revenue / 100 * 6)
     money = revenue_val - summ
