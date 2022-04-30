@@ -70,7 +70,8 @@ async def calculate_mint_profit(msg, data):
 
 async def calculate_mint_slipper_profit(msg):
     gst_usdt, sol_usdt, gmt_usdt = await get_info_GST_SOL()
-    summ = (float(gst_usdt) * config.bot.COL_GTS) + (float(gmt_usdt) * config.bot.COL_GMT)
+    # summ = (float(gst_usdt) * config.bot.COL_GTS) + (float(gmt_usdt) * config.bot.COL_GMT)
+    summ = (float(gst_usdt) * config.bot.COL_GTS) + (float(gmt_usdt) * gmt_usdt)
     sol_usdt = float(sol_usdt)
     gst_sol = sol_usdt / gst_usdt
     revenue = float(msg) * gst_sol
