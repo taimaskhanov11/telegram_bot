@@ -53,9 +53,11 @@ async def calculate_mint_profit(msg, data):
     gst_usdt = float(data["gst_usdt"])
     gmt_usdt = float(data["gmt_usdt"])
     summ =  (gst_usdt * config.bot.COL_GTS) + (config.bot.COL_GMT * gmt_usdt)
-    revenue = float(msg) * data["sol_usdt"] *gst_usdt
+    revenue = float(msg) * data["sol_usdt"]
+    # revenue = float(msg) * data["sol_usdt"] * gst_usdt
     revenue_val = revenue - (revenue / 100 * 6)
-    money = revenue_val - summ
+    # money = revenue_val - summ
+    money = data["profit"] - summ
     return money
 
 
