@@ -35,8 +35,9 @@ async def calculate_slipper_profit(_max, _min):
     gst_usdt, sol_usdt, gmt_usdt = await get_info_GST_SOL()
     gst_sol = sol_usdt / gst_usdt
 
-    val = _max - _min
-    profit = val - ((val / 100) * 6)
+    # val = _max - _min
+    # profit = val - ((val / 100) * 6)
+    profit = _max - ((_max / 100) * 6) - _min
 
 
     # usdt_profit = profit * gst_usdt * gst_sol
